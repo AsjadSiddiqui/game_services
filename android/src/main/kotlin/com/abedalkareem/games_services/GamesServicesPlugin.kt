@@ -89,28 +89,32 @@ class GamesServicesPlugin(private var activity: Activity? = null) : FlutterPlugi
 
 
     val client = Games.getPlayersClient(activity, GoogleSignIn.getLastSignedInAccount(activity)!!)
-    client.currentPlayer.addOnCompleteListener { task ->
-      if (task.isSuccessful) {
-        val player = task.result
+    val player = client.currentPlayer.result
+//    client.currentPlayer.addOnCompleteListener { task ->
+//      if (task.isSuccessful) {
+//        val player = task.result
         if (player != null) {
           Log.i("data", "Success! =====================>")
           Log.i("data", player.displayName.toString())
           Log.i("data", player.name.toString())
-          Log.i("data", player.levelInfo.toString())
+
           Log.i("data", player.playerId.toString())
           Log.i("data", player.title.toString())
           Log.i("data", player.hiResImageUri?.path.toString())
-          Log.i("data", player.currentPlayerInfo.toString())
+//          Log.i("data", player.)
           Log.i("data", "Success! =====================>")
 
         } else {
           Log.e("data", "Something went wrong... player is null =====================>")
 
         }
-      } else {
-        Log.e("data", "Something went wrong... TASK FAILED ! =====================>")
-      }
-    }
+//      } else {
+//        Log.e("data", "Something went wrong... TASK FAILED ! =====================>")
+//      }
+//    }
+
+    Log.i("data", "Did it wait?")
+    Log.i("data", "Did it Succeed?")
 
 
     finishPendingOperationWithSuccess()
@@ -226,6 +230,12 @@ class GamesServicesPlugin(private var activity: Activity? = null) : FlutterPlugi
   private fun finishPendingOperationWithSuccess() {
     Log.i(pendingOperation!!.method, "success")
     pendingOperation!!.result.success("success")
+    pendingOperation = null
+  }
+
+  private fun finishPendingOperationWithCustomResult(data: Map<String, String>) {
+    Log.i(pendingOperation!!.method, "success")
+    pendingOperation!!.result.success(data)
     pendingOperation = null
   }
 
