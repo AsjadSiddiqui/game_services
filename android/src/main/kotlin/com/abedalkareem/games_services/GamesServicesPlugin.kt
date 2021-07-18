@@ -89,10 +89,9 @@ class GamesServicesPlugin(private var activity: Activity? = null) : FlutterPlugi
 
 
     val client = Games.getPlayersClient(activity, GoogleSignIn.getLastSignedInAccount(activity)!!)
-    val player = client.currentPlayer.result
-//    client.currentPlayer.addOnCompleteListener { task ->
-//      if (task.isSuccessful) {
-//        val player = task.result
+    client.currentPlayer.addOnCompleteListener { task ->
+      if (task.isSuccessful) {
+        val player = task.result
         if (player != null) {
           Log.i("data", "Success! =====================>")
           Log.i("data", player.displayName.toString())
@@ -104,20 +103,32 @@ class GamesServicesPlugin(private var activity: Activity? = null) : FlutterPlugi
 //          Log.i("data", player.)
           Log.i("data", "Success! =====================>")
 
+          val data = mutableMapOf<String, String>()
+          data["displayName"] = player.displayName.toString()
+          data["name"] = player.name.toString()
+          data["playerId"] = player.playerId.toString()
+          data["title"] = player.title.toString()
+          data["hiResImage"] = player.hiResImageUri?.path.toString()
+
+          Log.i("data", data.toString())
+
+
+          finishPendingOperationWithCustomResult(data)
+
         } else {
           Log.e("data", "Something went wrong... player is null =====================>")
+          finishPendingOperationWithSuccess()
 
         }
-//      } else {
-//        Log.e("data", "Something went wrong... TASK FAILED ! =====================>")
-//      }
-//    }
+      } else {
+        Log.e("data", "Something went wrong... TASK FAILED ! =====================>")
+        finishPendingOperationWithSuccess()
 
-    Log.i("data", "Did it wait?")
-    Log.i("data", "Did it Succeed?")
+      }
+    }
 
 
-    finishPendingOperationWithSuccess()
+//    finishPendingOperationWithSuccess()
   }
   //endregion
 
