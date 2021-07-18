@@ -67,27 +67,54 @@ class GamesServicesPlugin(private var activity: Activity? = null) : FlutterPlugi
     }
   }
 
-  private fun getUserDetails(result: Result) {
+  private fun getUserDetails(googleSignInAccount: GoogleSignInAccount) {
     val activity = activity ?: return
-    val acct = GoogleSignIn.getLastSignedInAccount(activity)
-    if (acct != null) {
-      val personName : String = acct.displayName.toString()
-      val personGivenName : String = acct.givenName.toString()
-      val personFamilyName : String = acct.familyName.toString()
-      val personEmail : String = acct.email.toString()
-      val personId : String = acct.id.toString()
-      val personPhoto: String = acct.photoUrl.toString()
-      Log.i("GetUserDetails", "Success! =====================>")
-      Log.i("GetUserDetails", personName)
-      Log.i("GetUserDetails", personGivenName)
-      Log.i("GetUserDetails", personFamilyName)
-      Log.i("GetUserDetails", personEmail)
-      Log.i("GetUserDetails", personId)
-      Log.i("GetUserDetails", personPhoto)
-      Log.i("GetUserDetails", "Success! =====================>")
-    } else {
-      Log.e("GetUserDetails", "Something went wrong... account is null =====================>")
+
+    val client = Games.getPlayersClient(activity, googleSignInAccount)
+    client.currentPlayer.addOnCompleteListener {task ->
+      if (task.isSuccessful) {
+        val player = task.result
+        if (player != null) {
+          Log.i("GetUserDetails", "Success! =====================>")
+          Log.i("GetUserDetails", player.displayName)
+          Log.i("GetUserDetails", player.name)
+          Log.i("GetUserDetails", player.levelInfo.toString())
+          Log.i("GetUserDetails", player.playerId)
+          Log.i("GetUserDetails", player.title)
+          Log.i("GetUserDetails", player.hiResImageUri?.path.toString())
+          Log.i("GetUserDetails", player.currentPlayerInfo.toString())
+          Log.i("GetUserDetails", "Success! =====================>")
+
+        } else {
+          Log.e("GetUserDetails", "Something went wrong... player is null =====================>")
+
+        }
+      } else {
+        Log.e("GetUserDetails", "Something went wrong... TASK FAILED ! =====================>")
+      }
+
     }
+
+
+//    val acct = GoogleSignIn.getLastSignedInAccount(activity)
+//    if (acct != null) {
+//      val personName : String = acct.displayName.toString()
+//      val personGivenName : String = acct.givenName.toString()
+//      val personFamilyName : String = acct.familyName.toString()
+//      val personEmail : String = acct.email.toString()
+//      val personId : String = acct.id.toString()
+//      val personPhoto: String = acct.photoUrl.toString()
+//      Log.i("GetUserDetails", "Success! =====================>")
+//      Log.i("GetUserDetails", personName)
+//      Log.i("GetUserDetails", personGivenName)
+//      Log.i("GetUserDetails", personFamilyName)
+//      Log.i("GetUserDetails", personEmail)
+//      Log.i("GetUserDetails", personId)
+//      Log.i("GetUserDetails", personPhoto)
+//      Log.i("GetUserDetails", "Success! =====================>")
+//    } else {
+//      Log.e("GetUserDetails", "Something went wrong... account is null =====================>")
+//    }
   }
 
   private fun explicitSignIn() {
@@ -108,6 +135,9 @@ class GamesServicesPlugin(private var activity: Activity? = null) : FlutterPlugi
     val gamesClient = Games.getGamesClient(activity, GoogleSignIn.getLastSignedInAccount(activity)!!)
     gamesClient.setViewForPopups(activity.findViewById(android.R.id.content))
     gamesClient.setGravityForPopups(Gravity.TOP or Gravity.CENTER_HORIZONTAL)
+
+    getUserDetails(googleSignInAccount)
+
 
     finishPendingOperationWithSuccess()
   }
@@ -277,9 +307,7 @@ class GamesServicesPlugin(private var activity: Activity? = null) : FlutterPlugi
       Methods.silentSignIn -> {
         silentSignIn(result)
       }
-      Methods.getUserDetails -> {
-        getUserDetails(result);
-      }
+
       else -> result.notImplemented()
     }
   }
@@ -293,5 +321,4 @@ object Methods {
   const val showLeaderboards = "showLeaderboards"
   const val showAchievements = "showAchievements"
   const val silentSignIn = "silentSignIn"
-  const val getUserDetails = "getUserDetails"
 }
