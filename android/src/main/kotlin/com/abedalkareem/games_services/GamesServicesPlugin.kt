@@ -71,19 +71,19 @@ class GamesServicesPlugin(private var activity: Activity? = null) : FlutterPlugi
     val activity = activity ?: return
     val acct = GoogleSignIn.getLastSignedInAccount(activity)
     if (acct != null) {
-      val personName : String? = acct.displayName
-      val personGivenName : String? = acct.givenName
-      val personFamilyName : String? = acct.familyName
-      val personEmail : String? = acct.email
-      val personId : String? = acct.id
-      val personPhoto: Uri? = acct.photoUrl
+      val personName : String = acct.displayName.toString()
+      val personGivenName : String = acct.givenName.toString()
+      val personFamilyName : String = acct.familyName.toString()
+      val personEmail : String = acct.email.toString()
+      val personId : String = acct.id.toString()
+      val personPhoto: String = acct.photoUrl.toString()
       Log.i("GetUserDetails", "Success! =====================>")
       Log.i("GetUserDetails", personName)
       Log.i("GetUserDetails", personGivenName)
       Log.i("GetUserDetails", personFamilyName)
       Log.i("GetUserDetails", personEmail)
       Log.i("GetUserDetails", personId)
-      Log.i("GetUserDetails", personPhoto.toString())
+      Log.i("GetUserDetails", personPhoto)
       Log.i("GetUserDetails", "Success! =====================>")
     } else {
       Log.e("GetUserDetails", "Something went wrong... account is null =====================>")
