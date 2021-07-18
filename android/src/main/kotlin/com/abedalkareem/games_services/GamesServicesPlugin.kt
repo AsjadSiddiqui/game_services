@@ -67,33 +67,33 @@ class GamesServicesPlugin(private var activity: Activity? = null) : FlutterPlugi
     }
   }
 
-  private fun getUserDetails(googleSignInAccount: GoogleSignInAccount) {
-    val activity = activity ?: return
-
-    val client = Games.getPlayersClient(activity, googleSignInAccount)
-    client.currentPlayer.addOnCompleteListener {task ->
-      if (task.isSuccessful) {
-        val player = task.result
-        if (player != null) {
-          Log.i("GetUserDetails", "Success! =====================>")
-          Log.i("GetUserDetails", player.displayName)
-          Log.i("GetUserDetails", player.name)
-          Log.i("GetUserDetails", player.levelInfo.toString())
-          Log.i("GetUserDetails", player.playerId)
-          Log.i("GetUserDetails", player.title)
-          Log.i("GetUserDetails", player.hiResImageUri?.path.toString())
-          Log.i("GetUserDetails", player.currentPlayerInfo.toString())
-          Log.i("GetUserDetails", "Success! =====================>")
-
-        } else {
-          Log.e("GetUserDetails", "Something went wrong... player is null =====================>")
-
-        }
-      } else {
-        Log.e("GetUserDetails", "Something went wrong... TASK FAILED ! =====================>")
-      }
-
-    }
+//  private fun getUserDetails(googleSignInAccount: GoogleSignInAccount) {
+//    val activity = activity ?: return
+//
+//    val client = Games.getPlayersClient(activity, googleSignInAccount)
+//    client.currentPlayer.addOnCompleteListener {task ->
+//      if (task.isSuccessful) {
+//        val player = task.result
+//        if (player != null) {
+//          Log.i("GetUserDetails", "Success! =====================>")
+//          Log.i("GetUserDetails", player.displayName)
+//          Log.i("GetUserDetails", player.name)
+//          Log.i("GetUserDetails", player.levelInfo.toString())
+//          Log.i("GetUserDetails", player.playerId)
+//          Log.i("GetUserDetails", player.title)
+//          Log.i("GetUserDetails", player.hiResImageUri?.path.toString())
+//          Log.i("GetUserDetails", player.currentPlayerInfo.toString())
+//          Log.i("GetUserDetails", "Success! =====================>")
+//
+//        } else {
+//          Log.e("GetUserDetails", "Something went wrong... player is null =====================>")
+//
+//        }
+//      } else {
+//        Log.e("GetUserDetails", "Something went wrong... TASK FAILED ! =====================>")
+//      }
+//
+//    }
 
 
 //    val acct = GoogleSignIn.getLastSignedInAccount(activity)
@@ -115,7 +115,7 @@ class GamesServicesPlugin(private var activity: Activity? = null) : FlutterPlugi
 //    } else {
 //      Log.e("GetUserDetails", "Something went wrong... account is null =====================>")
 //    }
-  }
+//  }
 
   private fun explicitSignIn() {
     val activity = activity ?: return
@@ -136,7 +136,31 @@ class GamesServicesPlugin(private var activity: Activity? = null) : FlutterPlugi
     gamesClient.setViewForPopups(activity.findViewById(android.R.id.content))
     gamesClient.setGravityForPopups(Gravity.TOP or Gravity.CENTER_HORIZONTAL)
 
-    getUserDetails(googleSignInAccount)
+//    getUserDetails(googleSignInAccount)
+
+    val client = Games.getPlayersClient(activity, GoogleSignIn.getLastSignedInAccount(activity)!!)
+    client.currentPlayer.addOnCompleteListener { task ->
+      if (task.isSuccessful) {
+        val player = task.result
+        if (player != null) {
+          Log.i("GetUserDetails", "Success! =====================>")
+          Log.i("GetUserDetails", player.displayName.toString())
+          Log.i("GetUserDetails", player.name.toString())
+          Log.i("GetUserDetails", player.levelInfo.toString())
+          Log.i("GetUserDetails", player.playerId.toString())
+          Log.i("GetUserDetails", player.title.toString())
+          Log.i("GetUserDetails", player.hiResImageUri?.path.toString())
+          Log.i("GetUserDetails", player.currentPlayerInfo.toString())
+          Log.i("GetUserDetails", "Success! =====================>")
+
+        } else {
+          Log.e("GetUserDetails", "Something went wrong... player is null =====================>")
+
+        }
+      } else {
+        Log.e("GetUserDetails", "Something went wrong... TASK FAILED ! =====================>")
+      }
+    }
 
 
     finishPendingOperationWithSuccess()

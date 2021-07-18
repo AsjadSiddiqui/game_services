@@ -55,11 +55,6 @@ class GamesServices {
     return await GamesServicesPlatform.instance.signIn();
   }
 
-  /// To get user details.
-  static Future<String?> getUserDetails() async {
-    return await GamesServicesPlatform.instance.getUserDetails();
-  }
-
   /// Show the iOS Access Point.
   static Future<String?> showAccessPoint(AccessPointLocation location) async {
     return await GamesServicesPlatform.instance.showAccessPoint(location);
