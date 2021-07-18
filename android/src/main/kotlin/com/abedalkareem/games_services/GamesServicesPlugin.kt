@@ -93,15 +93,15 @@ class GamesServicesPlugin(private var activity: Activity? = null) : FlutterPlugi
       if (task.isSuccessful) {
         val player = task.result
         if (player != null) {
-          Log.i("data", "Success! =====================>")
-          Log.i("data", player.displayName.toString())
-          Log.i("data", player.name.toString())
-
-          Log.i("data", player.playerId.toString())
-          Log.i("data", player.title.toString())
-          Log.i("data", player.hiResImageUri?.path.toString())
-//          Log.i("data", player.)
-          Log.i("data", "Success! =====================>")
+//          Log.i("data", "Success! =====================>")
+//          Log.i("data", player.displayName.toString())
+//          Log.i("data", player.name.toString())
+//
+//          Log.i("data", player.playerId.toString())
+//          Log.i("data", player.title.toString())
+//          Log.i("data", player.hiResImageUri?.path.toString())
+////          Log.i("data", player.)
+//          Log.i("data", "Success! =====================>")
 
           val data = mutableMapOf<String, String>()
           data["displayName"] = player.displayName.toString()
@@ -109,6 +109,15 @@ class GamesServicesPlugin(private var activity: Activity? = null) : FlutterPlugi
           data["playerId"] = player.playerId.toString()
           data["title"] = player.title.toString()
           data["hiResImage"] = player.hiResImageUri?.path.toString()
+          data["icon"] = player.iconImageUri?.path.toString()
+          data["zzi"] = player.zzi().toString()
+          data["zzj"] = player.zzj().toString()
+          data["zzdc"] = player.zzm()?.zzdc().toString()
+          data["zzdd"] = player.zzm()?.zzdd().toString()
+          data["zzdf"] = player.zzm()?.zzdf()?.path.toString()
+          data["zzdg"] = player.zzm()?.zzdg()?.path.toString()
+          data["zzdh"] = player.zzm()?.zzdh()?.path.toString()
+          data["fullImagePath"] = "content://com.google.android.gms.games.background"+player.hiResImageUri?.path.toString()
 
           Log.i("data", data.toString())
 
