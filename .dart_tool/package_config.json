@@ -21,7 +21,7 @@
     },
     {
       "name": "games_services_platform_interface",
-      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/games_services_platform_interface-2.0.0-nullsafety.1",
+      "rootUri": "file:///C:/Asjad/flutter_plugins/games_services_platform_interface-2.0.0-nullsafety.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -62,7 +62,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-07-18T07:59:51.662388Z",
+  "generated": "2021-07-18T10:22:57.388825Z",
   "generator": "pub",
   "generatorVersion": "2.13.3"
 }

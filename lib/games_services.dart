@@ -51,7 +51,7 @@ class GamesServices {
   /// To sign in the user.
   /// You need to call the sign in before making any action,
   /// (like sending a score or unlocking an achievement).
-  static Future<String?> signIn() async {
+  static Future<dynamic> signIn() async {
     return await GamesServicesPlatform.instance.signIn();
   }
 
